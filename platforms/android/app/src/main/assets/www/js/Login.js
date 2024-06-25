@@ -1,9 +1,9 @@
 ﻿
 //GMR INTL
-//var GHAserviceURL = 'https://gmrintluat.kalelogistics.com:7081/GalaxyGHA/Services/HHTImpServices.asmx/';
-//var GHAImportFlightserviceURL = 'https://gmrintluat.kalelogistics.com:7081/GalaxyGHA/Services/HHTImpServices.asmx/';
-//var GHAExportFlightserviceURL = 'https://gmrintluat.kalelogistics.com:7081/galaxygha/services/hhtExpservices.asmx/';
-//var CMSserviceURL = 'https://gmrintluat.kalelogistics.com:7081/HHTWS/CMS_WS_PDA_NON_VAPT.asmx/';
+var GHAserviceURL = 'https://gmrintluat.kalelogistics.com:7081/GalaxyGHA/Services/HHTImpServices.asmx/';
+var GHAImportFlightserviceURL = 'https://gmrintluat.kalelogistics.com:7081/GalaxyGHA/Services/HHTImpServices.asmx/';
+var GHAExportFlightserviceURL = 'https://gmrintluat.kalelogistics.com:7081/galaxygha/services/hhtExpservices.asmx/';
+var CMSserviceURL = 'https://gmrintluat.kalelogistics.com:7081/HHTWS/CMS_WS_PDA_NON_VAPT.asmx/';
 
 
 
@@ -40,12 +40,12 @@
 //var GHAExportFlightserviceURL = 'https://international.gmrcargo.com:7081/galaxygha/services/hhtExpservices.asmx/';
 //var CMSserviceURL = 'https://international.gmrcargo.com:7081/galaxyHHTHYDNonVAPTWS/cms_ws_pda_NON_VAPT.asmx/';
 
-//MAB
+//MAB UAT
 
-var GHAserviceURL = 'https://galaxyuat.kalelogistics.com/MAB/Services/HHTImpServices.asmx/';
-var GHAImportFlightserviceURL = 'https://galaxyuat.kalelogistics.com/MAB/Services/HHTImpServices.asmx/';
-var GHAExportFlightserviceURL = 'https://galaxyuat.kalelogistics.com/MAB/Services/HHTexpServices.asmx/';
-var CMSserviceURL = 'https://galaxyuat.kalelogistics.com/CMSMABUATWS_HHT/CMS_WS_PDA_NON_VAPT.asmx/';
+//var GHAserviceURL = 'https://galaxyuat.kalelogistics.com/MAB/Services/HHTImpServices.asmx/';
+//var GHAImportFlightserviceURL = 'https://galaxyuat.kalelogistics.com/MAB/Services/HHTImpServices.asmx/';
+//var GHAExportFlightserviceURL = 'https://galaxyuat.kalelogistics.com/MAB/Services/HHTexpServices.asmx/';
+//var CMSserviceURL = 'https://galaxyuat.kalelogistics.com/CMSMABUATWS_HHT/CMS_WS_PDA_NON_VAPT.asmx/';
 
 
 

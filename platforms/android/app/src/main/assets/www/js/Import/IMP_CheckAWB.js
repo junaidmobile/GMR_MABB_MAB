@@ -1564,35 +1564,3 @@ function ClearFields() {
     $('.ClearFields input[type=text]').val("");
 }
 
-
-  //0: "AOG"
-        //1: "ATT"
-        //2: "AVI"
-        //3: "DGR"
-        //4: "GEN"
-        //5: "HUM"
-        //6: "PER"
-        //7: "VAL"
-       // console.log(filtered)
-/* spanStr += "&nbsp;<td  class='foo'>" + newSpanSHC[n] + "</td>";*/
-
-        //if (n == 0 && newSpanSHC[n] == "")
-        //    spanStr += "&nbsp;<td  style=\"background-color:rgb(177,112,136);color:white;padding:2px;text-align: center;\">" + newSpanSHC[0] + "</td>";
-        //if (n == 1 && newSpanSHC[n] != "")
-        //    spanStr += "&nbsp;<td style=\"background-color:rgb(27,81,141);color:white;padding:2px;text-align: center;\">" + newSpanSHC[n] + "</td>";
-        //if (n == 2 && newSpanSHC[n] != "")
-        //    spanStr += "&nbsp;<td style=\"background-color:rgb(13,150,68);color:white;padding:2px;text-align: center;\">" + newSpanSHC[n] + "</td>";
-        //if (n == 3 && newSpanSHC[n] != "")
-        //    spanStr += "&nbsp;<td style=\"background-color:rgb(35,29,31);color:white;padding:2px;text-align: center;\">" + newSpanSHC[n] + "</td>";
-        //if (n == 4 && newSpanSHC[n] != "")
-        //    spanStr += "&nbsp;<td style=\"background-color:rgb(157,124,43);color:white;padding:2px;text-align: center;\">" + newSpanSHC[n] + "</td>";
-        //if (n == 5 && newSpanSHC[n] != "")
-        //    spanStr += "&nbsp;<td style=\"background-color:rgb(14,76,166);color:white;padding:2px;text-align: center;\">" + newSpanSHC[n] + "</td>";
-        //if (n == 6 && newSpanSHC[n] != "")
-        //    spanStr += "&nbsp;<td style=\"background-color:rgb(206,84,209);color:white;padding:2px;text-align: center;\">" + newSpanSHC[n] + "</td>";
-        //if (n == 7 && newSpanSHC[n] != "")
-        //    spanStr += "&nbsp;<td style=\"background-color:rgb(143,74,219);color:white;padding:2px;text-align: center;\">" + newSpanSHC[n] + "</td>";
-        //if (n == 8 && newSpanSHC[n] != "")
-        //    spanStr += "&nbsp;<td style=\"background-color:rgb(198,139,74);color:white;padding:2px;text-align: center;\">" + newSpanSHC[n] + "</td>";
-        //if (n == 9 && newSpanSHC[n] != "")
-        //    spanStr += "&nbsp;<td style=\"background-color:rgb(198,139,74);color:white;padding:2px;text-align: center;\">" + newSpanSHC[n] + "</td>";

@@ -84,14 +84,17 @@ $(function () {
                 if ($(this).find('SDA_SBNo_C').text() == ConsignmentRowID) {
                     SDA_SBNo_C = $(this).find('SDA_SBNo_C').text();
                     SDA_HAWBNo_C = $(this).find('SDA_HAWBNo_C').text();
-
+                    CHAName = $(this).find('CHAName').text();
+                    SBShipperName = $(this).find('SBShipperName').text();
                     $('#txtSBNo').val(SDA_SBNo_C);
                     $('#txtHAWB').val(SDA_HAWBNo_C);
 
                     // $('#txPieces').val($(this).find('SDA_PackageCount_I').text());
                     $('#txPieces').val($(this).find('RemainingPieces').text());
                     $('#txtCommodityType').val($(this).find('CommodityType').text());
-
+                    $('#txtCHAName').text(CHAName);
+                    $('#txtShipper').text(SBShipperName);
+                    
                     remPCS = $(this).find('RemainingPieces').text();
 
                     var newSHC = $(this).find('SHCCodes').text();

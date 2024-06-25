@@ -201,6 +201,7 @@ function GetVCTDetailsForTDGAcceptance(clearMsg, overwriteMsg) {
                         DockInStatus = $(this).find('DockInStatus').text();
                         DockOutStatus = $(this).find('DockOutStatus').text();
                         AWBCount = $(this).find('AWBCount').text();
+                       
                         window.localStorage.setItem("VCTNo", VCTNo);
                         //if (DockInStatus == 'false') {
                         //    btnDockIn
@@ -239,6 +240,8 @@ function GetVCTDetailsForTDGAcceptance(clearMsg, overwriteMsg) {
                         $('#txtAcceptedPieces').val(TotalAcceptedPieces);
                         $('#txtRemainingPieces').val(TotalRemaingingPieces);
                         $('#txtAWBCount').val(AWBCount);
+                       
+                       
                         //debugger;
                         //if (index == 0) {
                         //    AWBid = $(this).find('AWBId').text();

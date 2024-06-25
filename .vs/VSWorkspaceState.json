@@ -2,9 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\www",
-    "\\www\\js",
-    "\\www\\js\\Import"
+    "\\www\\js"
   ],
-  "SelectedNode": "\\www\\js\\Import\\IMP_RecordDamage_Options.js",
   "PreviewInSolutionExplorer": false
 }
