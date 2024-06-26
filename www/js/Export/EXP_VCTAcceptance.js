@@ -92,8 +92,8 @@ $(function () {
                     // $('#txPieces').val($(this).find('SDA_PackageCount_I').text());
                     $('#txPieces').val($(this).find('RemainingPieces').text());
                     $('#txtCommodityType').val($(this).find('CommodityType').text());
-                    $('#txtCHAName').text(CHAName);
-                    $('#txtShipper').text(SBShipperName);
+                    $('#txtCHAName').val(CHAName);
+                    $('#txtShipper').val(SBShipperName);
                     
                     remPCS = $(this).find('RemainingPieces').text();
 
@@ -1274,6 +1274,8 @@ function CreateTDGAcceptance_SB_HHT() {
 function clearALL() {
     $('#txtSBNo').val('');
     $('#txtHAWB').val('');
+    $('#txtCHAName').val('');
+    $('#txtShipper').val('');
     $('#txtGroupId').val('');
     $('#txPieces').val('');
     $('#txtScaleWt').val('');
@@ -1320,7 +1322,7 @@ function clearALL() {
     $('#TareWt').text('');
     $('#lblVCTNo').text('');
     $('#spnMsg').text('');
-
+    
 }
 
 function ClearError(ID) {
