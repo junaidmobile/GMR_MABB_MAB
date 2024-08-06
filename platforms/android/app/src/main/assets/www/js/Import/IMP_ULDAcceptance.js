@@ -664,7 +664,7 @@ function GetImportULDListWithFlightDetails() {
                         ULDNo = $(this).find('ULDNo').text();
                         txtColor = $(this).find('txtColor').text();
                         ButtonStatus = $(this).find('ButtonStatus').text();
-                        FLIGHT_EVENT_TYPE = $(this).find('FLIGHT_EVENT_TYPE').text();
+                        FLIGHT_EVENT_TYPE = $(this).find('FlightEventType').text();
 
                         ULDNoList(ULDFltSeqNo, ULDNo, txtColor, ButtonStatus, FLIGHT_EVENT_TYPE);
                     });
@@ -865,7 +865,7 @@ function ScanFlightDetail() {
                         ULDNo = $(this).find('ULDNo').text();
                         txtColor = $(this).find('txtColor').text();
                         ButtonStatus = $(this).find('ButtonStatus').text();
-                        FLIGHT_EVENT_TYPE = $(this).find('FLIGHT_EVENT_TYPE').text();
+                        FLIGHT_EVENT_TYPE = $(this).find('FlightEventType').text();
 
                         ULDNoList(ULDFltSeqNo, ULDNo, txtColor, ButtonStatus, FLIGHT_EVENT_TYPE);
                     });
@@ -916,7 +916,7 @@ function ULDNoList(ULDFltSeqNo, ULDNo, txtColor, ButtonStatus, FLIGHT_EVENT_TYPE
 
     if (ButtonStatus == 'A') {
         if (ULDNo == 'BULK') {
-            html += '<td style="font-size:14px;padding: 5px;padding-left: 10%;"><button onclick="setFBA_LBA_Flag(\'' + 'FBA' + '\');ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn ButtonColor">FBA</button><button style="margin-left:20px;" onclick="setFBA_LBA_Flag(\'' + 'LBA' + '\');ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn ButtonColor">LBA</button></td>';
+            html += '<td style="font-size:14px;padding: 5px;padding-left: 10%;"><button onclick="setFBA_LBA_Flag(\'' + 'FBA' + '\');ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn ButtonColor">FBA</button><button style="margin-left:20px;" onclick="setFBA_LBA_Flag(\'' + 'LBA' + '\');ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn" disabled>LBA</button></td>';
         } else {
             html += '<td style="padding-left: 20%;font-size:14px;padding: 5px;padding-left: 20%;"><button onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn ButtonColor">Accept</button></td>';
         }
@@ -928,7 +928,7 @@ function ULDNoList(ULDFltSeqNo, ULDNo, txtColor, ButtonStatus, FLIGHT_EVENT_TYPE
             if (FLIGHT_EVENT_TYPE == 'LBA') {
                 html += '<td style="font-size:14px;padding: 5px;padding-left: 10%;"><button onclick="setFBA_LBA_Flag(\'' + 'FBA' + '\');ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn ButtonColor">FBA</button><button style="margin-left:20px;" onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn " disabled>LBA</button></td>';
             }
-            if (FLIGHT_EVENT_TYPE == "FBA,FBA") {
+            if (FLIGHT_EVENT_TYPE == "FBA,LBA") {
                 html += '<td style="font-size:14px;padding: 5px;padding-left: 10%;"><button onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn" disabled>FBA</button><button style="margin-left:20px;" onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn" disabled>LBA</button></td>';
             }
             if (FLIGHT_EVENT_TYPE == "LBA,FBA") {
