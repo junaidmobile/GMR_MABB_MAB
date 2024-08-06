@@ -34,7 +34,7 @@ var CMSserviceURL = 'https://gmrintluat.kalelogistics.com:7081/HHTWS/CMS_WS_PDA_
 //var CMSserviceURL = 'https://intl.mabcargoedi.com/GalaxyINTLHHTWS/CMS_WS_PDA_NON_VAPT.asmx/';
 
 
-//Live
+//GMR Live
 //var GHAserviceURL = 'https://international.gmrcargo.com:7081/galaxygha/services/hhtImpservices.asmx/';
 //var GHAImportFlightserviceURL = 'https://international.gmrcargo.com:7081/galaxygha/services/hhtImpservices.asmx/';
 //var GHAExportFlightserviceURL = 'https://international.gmrcargo.com:7081/galaxygha/services/hhtExpservices.asmx/';

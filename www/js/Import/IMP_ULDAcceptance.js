@@ -10,6 +10,7 @@ var AWBRowID;
 var HAWBId;
 var inputRowsforLocation = "";
 var _ULDFltSeqNo;
+var _fba_lba_flag;
 //document.addEventListener("pause", onPause, false);
 //document.addEventListener("resume", onResume, false);
 //document.addEventListener("menubutton", onMenuKeyDown, false);
@@ -411,11 +412,11 @@ function GetImportULDList() {
                     var newdate = date.split("-").reverse().join("-");
 
                     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"
+                        "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"
                     ];
 
                     var d = new Date(newdate);
-                   
+
                     _Mont = monthNames[d.getMonth()]
 
                     DD = FlightDate.split("-")[0];
@@ -663,8 +664,9 @@ function GetImportULDListWithFlightDetails() {
                         ULDNo = $(this).find('ULDNo').text();
                         txtColor = $(this).find('txtColor').text();
                         ButtonStatus = $(this).find('ButtonStatus').text();
+                        FLIGHT_EVENT_TYPE = $(this).find('FLIGHT_EVENT_TYPE').text();
 
-                        ULDNoList(ULDFltSeqNo, ULDNo, txtColor, ButtonStatus);
+                        ULDNoList(ULDFltSeqNo, ULDNo, txtColor, ButtonStatus, FLIGHT_EVENT_TYPE);
                     });
                     html += "</tbody></table>";
                     if (f == '1') {
@@ -723,7 +725,7 @@ function ScanFlightDetail() {
         //errmsg = "Please enter Flight Date";
         //$.alert(errmsg);
         $('#spnMsg').text('');
-        
+
         return;
     }
 
@@ -792,7 +794,7 @@ function ScanFlightDetail() {
                     var newdate = date.split("-").reverse().join("-");
 
                     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"
+                        "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"
                     ];
 
                     var d = new Date(newdate);
@@ -813,7 +815,7 @@ function ScanFlightDetail() {
 
                     //var _FlightDate = $("#year").val(YY) + '-' + $("#month").val(MM) + '-' + $("#day").val(YY);
 
-                 //   $('#txtFlightDate').val(newdate);
+                    //   $('#txtFlightDate').val(newdate);
 
                     //DD = FlightDate.split("-")[0];
                     //MM = FlightDate.split("-")[1];
@@ -863,8 +865,9 @@ function ScanFlightDetail() {
                         ULDNo = $(this).find('ULDNo').text();
                         txtColor = $(this).find('txtColor').text();
                         ButtonStatus = $(this).find('ButtonStatus').text();
+                        FLIGHT_EVENT_TYPE = $(this).find('FLIGHT_EVENT_TYPE').text();
 
-                        ULDNoList(ULDFltSeqNo, ULDNo, txtColor, ButtonStatus);
+                        ULDNoList(ULDFltSeqNo, ULDNo, txtColor, ButtonStatus, FLIGHT_EVENT_TYPE);
                     });
                     html += "</tbody></table>";
                     if (flag == '1') {
@@ -896,29 +899,54 @@ function ScanFlightDetail() {
         $("body").mLoading('hide');
     }
 }
+var fba;
+var fbl;
+function ULDNoList(ULDFltSeqNo, ULDNo, txtColor, ButtonStatus, FLIGHT_EVENT_TYPE) {
 
-function ULDNoList(ULDFltSeqNo, ULDNo, txtColor, ButtonStatus) {
+    if (ULDNo == 'BULK') {
+        const myArray = FLIGHT_EVENT_TYPE.split(",");
+        fba = myArray[0];
+        fbl = myArray[1];
 
-    //html += "<tr>";
-    //html += "<td height='30' onclick='GetMeetingByNo(abc)'style='background: rgb(224, 243, 215);padding-left: 4px;font-size:14px;' align='left'>" + EventDT + ' <br> ' + UserName + "</td>";
-    //html += "<td height='30' onclick='GetMeetingByNo(abc)'style='background: rgb(224, 243, 215);padding-left: 4px;font-size:14px;' align='left'>" + EventName + "</td>";
-    ////html += "<td height='30' onclick='GetMeetingByNo(abc)'style='background: rgb(224, 243, 215);padding-left: 4px;font-size:14px'align='left'>" + UserName + "</td>";
-    //html += "</tr>";
+    }
 
     html += '<tr>';
 
     html += '<td style="padding-left: 4px;font-size:14px;color:' + txtColor + ';" id="tdGatepass">' + ULDNo + '</td>';
 
     if (ButtonStatus == 'A') {
-        html += '<td style="padding-left: 20%;font-size:14px;padding: 5px;padding-left: 20%;"><button onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn ButtonColor">Accept</button></td>';
+        if (ULDNo == 'BULK') {
+            html += '<td style="font-size:14px;padding: 5px;padding-left: 10%;"><button onclick="setFBA_LBA_Flag(\'' + 'FBA' + '\');ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn ButtonColor">FBA</button><button style="margin-left:20px;" onclick="setFBA_LBA_Flag(\'' + 'LBA' + '\');ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn ButtonColor">LBA</button></td>';
+        } else {
+            html += '<td style="padding-left: 20%;font-size:14px;padding: 5px;padding-left: 20%;"><button onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn ButtonColor">Accept</button></td>';
+        }
     } else if (ButtonStatus == 'D') {
-        html += '<td style="padding-left: 20%;font-size:14px;padding: 5px;padding-left: 20%;"><button  class="btn" disabled>Accepted</button></td>';
+        if (ULDNo == 'BULK') {
+            if (FLIGHT_EVENT_TYPE == 'FBA') {
+                html += '<td style="font-size:14px;padding: 5px;padding-left: 10%;"><button onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn" disabled>FBA</button><button style="margin-left:20px;" onclick="setFBA_LBA_Flag(\'' + 'LBA' + '\');ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn ButtonColor">LBA</button></td>';
+            }
+            if (FLIGHT_EVENT_TYPE == 'LBA') {
+                html += '<td style="font-size:14px;padding: 5px;padding-left: 10%;"><button onclick="setFBA_LBA_Flag(\'' + 'FBA' + '\');ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn ButtonColor">FBA</button><button style="margin-left:20px;" onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn " disabled>LBA</button></td>';
+            }
+            if (FLIGHT_EVENT_TYPE == "FBA,FBA") {
+                html += '<td style="font-size:14px;padding: 5px;padding-left: 10%;"><button onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn" disabled>FBA</button><button style="margin-left:20px;" onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn" disabled>LBA</button></td>';
+            }
+            if (FLIGHT_EVENT_TYPE == "LBA,FBA") {
+                html += '<td style="font-size:14px;padding: 5px;padding-left: 10%;"><button onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn" disabled>FBA</button><button style="margin-left:20px;" onclick="ImportULDAcceptanceOnListClick(\'' + ULDFltSeqNo + '\');" class="btn" disabled>LBA</button></td>';
+            }
+        } else {
+            html += '<td style="padding-left: 20%;font-size:14px;padding: 5px;padding-left: 20%;"><button  class="btn" disabled>Accepted</button></td>';
+        }
     }
-
 
     html += '</tr>';
 }
 
+function setFBA_LBA_Flag(setFlg) {
+
+    _fba_lba_flag = setFlg;
+
+}
 
 function ImportULDAcceptance() {
 
@@ -1074,7 +1102,7 @@ function ImportULDAcceptanceOnListClick(txtSacnULD) {
     // var inputXML = '<Root><FlightAirline>' + FlightPrefix + '</FlightAirline><FlightNo>' + FlightNo + '</FlightNo><FlightDate>' + FlightDate + '</FlightDate><Offpoint></Offpoint><AirportCity>' + AirportCity + '</AirportCity></Root>';
     //var inputXML = '<Root><ULDNo>' + txtSacnULD + '</ULDNo><FlightAirline>' + FlightPrefix + '</FlightAirline><FlightNo>' + FlightNo + '</FlightNo><FlightDate>' + FlightDate + '</FlightDate>';
 
-    var inputXML = '<Root><ULDFltSeqNo>' + txtSacnULD + '</ULDFltSeqNo><AirportCity>' + AirportCity + '</AirportCity><UserId>' + UserId + '</UserId><LocationCode>' + $('#txtLocation').val() + '</LocationCode><Type>A</Type></Root>';
+    var inputXML = '<Root><ULDFltSeqNo>' + txtSacnULD + '</ULDFltSeqNo><AirportCity>' + AirportCity + '</AirportCity><UserId>' + UserId + '</UserId><LocationCode>' + $('#txtLocation').val() + '</LocationCode><Type>A</Type><EventType>' + _fba_lba_flag + '</EventType></Root>';
 
     if (errmsg == "" && connectionStatus == "online") {
         $.ajax({
@@ -1158,7 +1186,7 @@ function clearAWBDetails() {
     $('#tblNewsForGatePass').hide();
     $('#divULDNumberDetails').empty();
     $('#divULDNumberDetails').hide();
-    
+
     //var now = new Date();
 
     //var day = ("0" + now.getDate()).slice(-2);
@@ -1232,8 +1260,8 @@ function ImportDataList() {
                     minLength: 1,
                     select: function (event, ui) {
                         log(ui.item ?
-                          "Selected: " + ui.item.label :
-                          "Nothing selected, input was " + this.value);
+                            "Selected: " + ui.item.label :
+                            "Nothing selected, input was " + this.value);
                     },
                     open: function () {
                         $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
