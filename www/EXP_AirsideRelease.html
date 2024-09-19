@@ -14,16 +14,188 @@
     <script src="scripts/LoaderShow-Hide.js"></script>
     <script src="scripts/Login.js"></script>
     <script src="scripts/dialog.js"></script>
-    <script src="js/General.js"></script>    
+    <script src="js/General.js"></script>
     <link href="css/General.css" rel="stylesheet" />
     <script src="scripts/alert.mob.js"></script>
     <link href="css/Loader.css" rel="stylesheet" />
     <link href="css/dialog.css" rel="stylesheet" />
     <link href="css/alert.mob.css" rel="stylesheet" />
     <script src="js/Export/EXP_AirsideRelease.js"></script>
+    <style>
+
+        #TextBoxDiv td.foo:nth-child(7n+1) {
+            background-color: rgb(177,112,136);
+            color: white;
+            padding: 3px;
+            text-align: center;
+        }
+
+        #TextBoxDiv td.foo:nth-child(7n+2) {
+            background-color: rgb(27,81,141);
+            color: white;
+            padding: 3px;
+            text-align: center;
+        }
+
+        #TextBoxDiv td.foo:nth-child(7n+3) {
+            background-color: rgb(13,150,68);
+            color: white;
+            padding: 3px;
+            text-align: center;
+        }
+
+        #TextBoxDiv td.foo:nth-child(7n+4) {
+            background-color: rgb(35,29,31);
+            color: white;
+            padding: 3px;
+            text-align: center;
+        }
+
+        #TextBoxDiv td.foo:nth-child(7n+5) {
+            background-color: rgb(157,124,43);
+            color: white;
+            padding: 3px;
+            text-align: center;
+        }
+
+        #TextBoxDiv td.foo:nth-child(7n+6) {
+            background-color: rgb(14,76,166);
+            color: white;
+            padding: 3px;
+            text-align: center;
+        }
+
+        #TextBoxDiv td.foo:nth-child(7n+7) {
+            background-color: rgb(206,84,209);
+            color: white;
+            padding: 3px;
+            text-align: center;
+        }
+
+        #TextBoxDiv td.foo:nth-child(7n+8) {
+            background-color: rgb(143,74,219);
+            color: white;
+            padding: 3px;
+            text-align: center;
+        }
+
+        #TextBoxDiv td.foo:nth-child(7n+9) {
+            background-color: rgb(198,139,74);
+            color: white;
+            padding: 3px;
+            text-align: center;
+        }
+
+        /*#TextBoxDiv > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 12px;
+        }*/
+
+        #TextBoxDiv {
+            margin-bottom: 0px !important;
+            margin-top: 5px;
+        }
+
+        .blink_me {
+            animation: blinker 1s linear infinite;
+            background-color: yellow;
+            padding: 15px;
+            text-align: center;
+            line-height: 50px;
+            font-weight: bolder;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            vertical-align: inherit;
+        }
+
+        #tblChecklist .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+            position: relative !important;
+        }
+
+        .first:not(:first-child) {
+            display: none;
+        }
+
+        /* #divCheckListDetail {
+            padding: 10px;
+            display: block;
+            height: 70vh;
+            overflow: scroll;
+        }*/
+
+        .first:not(:first-child) {
+            display: none;
+        }
+
+        .first {
+            /* box-sizing: border-box;*/
+            /* width: 200px;
+            padding: 50px;*/
+            /* border: 1px solid red;
+            text-align: center;*/
+        }
+
+            .first:not(:first-child) {
+                display: none;
+            }
+
+        .controls {
+            width: 200px;
+        }
+
+        .pre {
+            float: left;
+        }
+
+        .next {
+            float: right;
+        }
+
+        a {
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            appearance: none;
+            border: 1px solid #065da1;
+            width: 20px;
+            height: 20px;
+            content: none;
+            outline: none;
+            margin: 0;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+            input[type="radio"]:checked {
+                appearance: none;
+                outline: none;
+                padding: 0;
+                content: none;
+                border: none;
+            }
+
+                input[type="radio"]:checked::before {
+                    position: absolute;
+                    color: green !important;
+                    content: "\00A0\2713\00A0" !important;
+                    border: 1px solid #d3d3d3;
+                    font-weight: bolder;
+                    font-size: 15px;
+                }
+
+        #heading {
+            column-count: 1;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" id="navbar">    
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="navbar">
         <div class="container-fluid">
             <div class="navbar-header" style="background-color:#065da1;">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" id="btnnavbar" data-target="#myNavbar">
@@ -38,7 +210,7 @@
             <div class="collapse navbar-collapse" id="myNavbar">
 
             </div>
-        </div>     
+        </div>
     </nav>
     <div class="container-fluid" style="margin-top:63px;">
         <div class="panel-body">
@@ -57,11 +229,11 @@
                                     <!--<div class="col-xs-2 NoPadding">
                                         <input id="txtGPNo2" class="form-control" type="number" style="text-align:right;" onkeyup="ChkMaxLength(this, '4');">
                                     </div>-->
-                                </div>                                
+                                </div>
                             </div>
                             <div class="row form-group" style="margin-top:5px;">
-                                <div class="col-xs-6 col-form-label">                                    
-                                        <label class="checkbox-inline"><input type="checkbox" id="chkManual" onchange="PutGPno()">Manual</label>                                    
+                                <div class="col-xs-6 col-form-label">
+                                    <label class="checkbox-inline"><input type="checkbox" id="chkManual" onchange="PutGPno()">Manual</label>
                                 </div>
                                 <div class="form-group col-xs-6 col-sm-4 col-md-4 NoPadding">
                                     <input type="button" id="btnGet" class="form-control ButtonColor" value="Get Status" onclick="GetGPStatus();">
@@ -106,17 +278,17 @@
                                 </div>
                             </div>
                             <!--<div class="row form-group">
-                                
-                            </div>-->                            
+
+                            </div>-->
                         </form>
                     </div>
                 </div>
             </div>
-            
-            <div id ="divReleaseULD" class="panel panel-widget forms-panel form-grids widget-shadow" style="display:none">
+
+            <div id="divReleaseULD" class="panel panel-widget forms-panel form-grids widget-shadow" style="display:none">
                 <div class="forms">
                     <div class="form-body">
-                        <form>                            
+                        <form>
                             <div class="row form-group">
                                 <div class="form-group col-xs-12 col-sm-6 col-md-6 NoPadding">
                                     <div class="col-xs-6 col-form-label">
@@ -124,7 +296,7 @@
                                     </div>
                                     <div class="col-xs-6 NoPadding">
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class="form-group col-xs-12 col-sm-6 col-md-6 NoPadding">
                                     <div class="col-xs-6 col-form-label">
                                         <label id="lblULD">ULD No.</label>
@@ -144,7 +316,7 @@
                                     <div class="form-group col-xs-2 col-sm-4 col-md-4">
                                     </div>
                                 </div>
-                            </div>                      
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -161,7 +333,7 @@
                                     </div>
                                     <div class="col-xs-6 NoPadding">
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class="form-group col-xs-12 col-sm-6 col-md-6 NoPadding">
                                     <div class="col-xs-6 col-form-label">
                                         <label id="lblAWB">AWB No.</label>
@@ -174,7 +346,7 @@
                                 </div>
                                 <div class="form-group col-xs-12 col-sm-6 col-md-6 NoPadding">
                                     <div class="col-xs-6 col-form-label">
-                                        <label id="lblTotPkgs" for="txtTotPkgs">Total Pkgs.</label>                                        
+                                        <label id="lblTotPkgs" for="txtTotPkgs">Total Pkgs.</label>
                                     </div>
                                     <div class="col-xs-6 NoPadding">
                                         <input id="txtTotPkgs" class="form-control" type="number" style="text-align:right;" disabled>
@@ -182,7 +354,7 @@
                                 </div>
                                 <div class="form-group col-xs-12 col-sm-6 col-md-6 NoPadding">
                                     <div class="col-xs-6 col-form-label">
-                                        <label id="lblReleasePkgs" for="txtReleasePkgs">Release Pkgs.</label>                                        
+                                        <label id="lblReleasePkgs" for="txtReleasePkgs">Release Pkgs.</label>
                                     </div>
                                     <div class="col-xs-6 NoPadding">
                                         <input id="txtReleasePkgs" class="form-control" type="number" style="text-align:right;" autofocus onkeyup="ChkMaxLength(this, '7');">
@@ -215,7 +387,7 @@
                                             <option value="0">Select</option>
                                         </select>
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class="row form-group" style="margin-top:5px;">
                                     <div class="form-group col-xs-6 col-sm-4 col-md-4">
                                     </div>
@@ -244,7 +416,7 @@
                 <div class="form-group col-xs-6 col-sm-3 col-md-3">
                     <input type="button" id="btnBack" class="form-control ButtonColor" value="Exit" onclick="window.location.href = 'EXP_Dashboard.html'">
                 </div>
-            </div>            
+            </div>
         </div>
 
         <div id="divAddTestLocation">
@@ -252,6 +424,44 @@
         </div>
 
     </div>
+
+
+    <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content content">
+
+                <div class="modal-body row ">
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                        <span id="spnErrormsgonPopup"></span>
+                    </div>
+                    <div style="padding:10px;" id="divCheckListDetail">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                    <div class="row">
+                        <div class="form-group col-xs-4 col-sm-4 col-md-4" style="margin-top:15px">
+                            <input type="button" class="form-control ButtonColor pre" value="PREVIOUS">
+                        </div>
+                        <div class="form-group col-xs-4 col-sm-4 col-md-4" style="margin-top:15px">
+                            <input type="button" id="btnClear" class="form-control ButtonColor" value="Clear" onclick="unCheckAll()">
+                        </div>
+                        <div class="form-group col-xs-4 col-sm-4 col-md-4" style="margin-top:15px">
+                            <input type="button" class="form-control ButtonColor next" value="NEXT">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
     <div>
         <footer class="footer" style="color: white; font-size :12px; background-color:#0967b0;">
             <div class="container">

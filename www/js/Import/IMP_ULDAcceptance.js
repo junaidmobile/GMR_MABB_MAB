@@ -1,6 +1,8 @@
 ﻿
 
 var GHAImportFlightserviceURL = window.localStorage.getItem("GHAImportFlightserviceURL");
+var GHAExportFlightserviceURL = window.localStorage.getItem("GHAExportFlightserviceURL");
+
 var AirportCity = window.localStorage.getItem("SHED_AIRPORT_CITY");
 var CMSserviceURL = window.localStorage.getItem("CMSserviceURL");
 var UserId = window.localStorage.getItem("UserID");
@@ -10,7 +12,7 @@ var AWBRowID;
 var HAWBId;
 var inputRowsforLocation = "";
 var _ULDFltSeqNo;
-var _fba_lba_flag;
+var _fba_lba_flag = '';
 //document.addEventListener("pause", onPause, false);
 //document.addEventListener("resume", onResume, false);
 //document.addEventListener("menubutton", onMenuKeyDown, false);
@@ -28,7 +30,21 @@ var _fba_lba_flag;
 //    HHTLogout();
 //}
 
-
+var i = 1;
+var increamentVal = 1;
+var _xmlDocTable;
+var lastQuestion;
+var lastNo;
+var allRadioValdata = {};
+var inputRowsOfAns = "";
+var RowID;
+var PageNo = 1;
+var pageNumberCount;
+var currentDate;
+var currentYear;
+var QuestionaireId;
+var CheckListStatus;
+var globleULDID;
 
 $(function () {
 
@@ -55,6 +71,97 @@ $(function () {
     //var h = date.getHours();
     //var m = date.getMinutes();
     //var s = date.getSeconds();
+
+
+    $(".next").click(function () {
+
+        //Show previous button
+        $('.pre').show();
+
+        //Find the element that's currently showing
+        $showing = $('.content .first.visible').first();
+
+        //Find the next element
+        $next = $showing.next();
+
+        //Change which div is showing
+        $showing.removeClass("visible").hide();
+        $next.addClass("visible").show();
+
+        //If there's no more elements, hide the NEXT button
+        if (!$next.next().length) {
+            // $(this).hide();
+            //  console.log(parseInt(pageNumberCount) + '/' + parseInt(increamentVal))
+
+        }
+
+        if (parseInt(pageNumberCount) == parseInt(PageNo) + 1) {
+            //alert(parseInt(lastQuestion) + '/' + parseInt(lastNo))
+            $(".next").attr('value', 'Finish');
+            // $(this).hide();
+            // $('#myModal').modal('hide');
+            //  return;
+            i = 1;
+        }
+        // var i = 1;
+        console.log('increamentVal  / ' + increamentVal)
+
+        console.log(parseInt(pageNumberCount) + '/' + parseInt(increamentVal))
+        i++;
+        increamentVal = i;
+        /* console.log(increamentVal)*/
+        PageNo = PageNo + 1;
+
+        ImportULDAcceptanceOnListClick(globleULDID);
+
+        allRadioValdata = {};
+
+
+
+    });
+
+    $(".pre").click(function () {
+        $('.next').show();
+
+        $showing = $('.content .first.visible').first();
+        $next = $showing.prev();
+        $showing.removeClass("visible").hide();
+        $next.addClass("visible").show();
+
+        if (!$next.prev().length) {
+            // $(this).hide();
+            // $(".next").attr('value', 'NEXT');
+        }
+        console.log(parseInt(pageNumberCount) + '/' + parseInt(PageNo))
+
+        if (parseInt(pageNumberCount) == parseInt(PageNo)) {
+            $(".next").attr('value', 'NEXT');
+            i = 1;
+        } else if (parseInt(pageNumberCount) < parseInt(PageNo)) {
+            $(".next").attr('value', 'Finish');
+            i = 1;
+        }
+
+        i--;
+        increamentVal = i;
+        PageNo = PageNo - 1;
+        $('#spnErrormsgonPopup').text('');
+
+        if (PageNo == 0) {
+            $('#myModal').modal('hide');
+            return;
+        }
+
+
+        if (increamentVal != 0) {
+            ImportULDAcceptanceOnListClick(globleULDID);
+        } else {
+            ImportULDAcceptanceOnListClick(globleULDID);
+        }
+
+    });
+
+
 
 });
 
@@ -412,7 +519,7 @@ function GetImportULDList() {
                     var newdate = date.split("-").reverse().join("-");
 
                     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
                     ];
 
                     var d = new Date(newdate);
@@ -486,7 +593,7 @@ function GetImportULDList() {
 
                 });
 
-
+                ImportULDAcceptanceOnListClick(_ULDFltSeqNo);
 
             },
             error: function (msg) {
@@ -794,7 +901,7 @@ function ScanFlightDetail() {
                     var newdate = date.split("-").reverse().join("-");
 
                     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
                     ];
 
                     var d = new Date(newdate);
@@ -950,6 +1057,18 @@ function setFBA_LBA_Flag(setFlg) {
 
 function ImportULDAcceptance() {
 
+    if (CheckListStatus == 'Checklist Rejected') {
+        let text = 'The checklist is rejected/incomplete. Do you want to proceed with the release?';
+        if (confirm(text) == true) {
+            PageNo = 1
+            $(".next").attr('value', 'NEXT');
+        } else {
+            PageNo = 1
+            $(".next").attr('value', 'NEXT');
+            return
+        }
+    }
+
     var connectionStatus = navigator.onLine ? 'online' : 'offline'
     var errmsg = "";
 
@@ -1072,7 +1191,19 @@ function ImportULDAcceptance() {
 }
 
 
-function ImportULDAcceptanceOnListClick(txtSacnULD) {
+function AfterCheckListImportULDAcceptanceOnListClick(txtSacnULD) {
+
+    if (CheckListStatus == 'Checklist Rejected') {
+        let text = 'The checklist is rejected/incomplete. Do you want to proceed with the release?';
+        if (confirm(text) == true) {
+            PageNo = 1
+            $(".next").attr('value', 'NEXT');
+        } else {
+            PageNo = 1
+            $(".next").attr('value', 'NEXT');
+            return
+        }
+    }
 
     var connectionStatus = navigator.onLine ? 'online' : 'offline'
     var errmsg = "";
@@ -1270,7 +1401,12 @@ function ImportDataList() {
                         $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
                     }
                 });
-
+                $.ui.autocomplete.filter = function (array, term) {
+                    var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(term), "i");
+                    return $.grep(array, function (value) {
+                        return matcher.test(value.label || value.value || value);
+                    });
+                };
             },
             error: function (msg) {
                 //debugger;
@@ -1299,3 +1435,275 @@ function log(message) {
     $("#log").scrollTop(0);
 }
 
+function ImportULDAcceptanceOnListClick(uldid) {
+
+    if (uldid.indexOf('~') > -1) {
+        let text = uldid;
+        const myArray = text.split("~");
+        _uldid = myArray[0];
+        globleULDID = uldid;
+    }
+    else {
+        _uldid = _uldid;
+    }
+
+    inputRowsOfAns = "";
+    inputRowsOfAns += '<Root><CheckListType>7</CheckListType><ULDId>' + _uldid + '</ULDId><PageNo>' + PageNo + '</PageNo><PageNoDisplay></PageNoDisplay><AirportCity>' + AirportCity + '</AirportCity><UserId>' + UserId + '</UserId><Answers>'
+    $('#tblChecklist tr').each(function () {
+        $(this).find("input").each(function () {
+            ItemCode = $(this).val();
+            var name = $(this).attr('name');
+            var Qid = name.split('~');
+            var option = $(this).attr('id');
+            var QuestionIDInsert = Qid[1]
+            if ($(this).is(':checked') == true) {
+                inputRowsOfAns += "<Answer><QuestionID>" + QuestionIDInsert + "</QuestionID><Option>" + option + "</Option></Answer>"
+            }
+        });
+    });
+    inputRowsOfAns += "</Answers></Root>";
+    //  console.log(inputRowsOfAns)
+    var connectionStatus = navigator.onLine ? 'online' : 'offline'
+    var errmsg = "";
+    //InputXMLforNext = '<Root><CheckListType>' + chkID + '</CheckListType><AWBId>' + RowID + '</AWBId><QuestionaireMasterNo>' + QuestionaireId + '</QuestionaireMasterNo><PageNo>' + PageNo + '</PageNo><PageNoDisplay></PageNoDisplay><AirportCity>' + AirportCity + '</AirportCity><UserId>' + UserID + '</UserId></Root>';
+    //InputXMLforNext = '<Root><CheckListType>DGR1</CheckListType><AWBId>99</AWBId><PageNo>1</PageNo><PageNoDisplay></PageNoDisplay><AirportCity>BUD</AirportCity><UserId>1</UserId>';
+
+
+    // InputXML = "<Root><CheckListType>DGR3</CheckListType><AWBId>1</AWBId><PageNo>2</PageNo><PageNoDisplay>1-4</PageNoDisplay><AirportCity>BUD</AirportCity><UserId></UserId></Root>";
+    // console.log(InputXML)
+    if (errmsg == "" && connectionStatus == "online") {
+        $.ajax({
+            type: 'POST',
+            url: GHAExportFlightserviceURL + "EXPORTCheckListULDNext",
+            data: JSON.stringify({ 'InputXML': inputRowsOfAns }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function doStuff() {
+                $('body').mLoading({
+                    text: "Loading..",
+                });
+            },
+            success: function (response) {
+                //debugger;
+                $("body").mLoading('hide');
+                response = response.d;
+                //var str = response.d;
+                var xmlDoc = $.parseXML(response);
+                //$('#divVCTDetail').html('');
+                //$('#divVCTDetail').empty();
+                console.log(xmlDoc);
+
+                var _Status;
+                $(xmlDoc).find('Table').each(function (index) {
+                    Status = $(this).find('Status').text();
+                    StrMessage = $(this).find('StrMessage').text();
+                    PageNo = $(this).find('PageNo').text();
+                    PageCount = $(this).find('PageCount').text();
+                    CheckListStatus = StrMessage// $(this).find('CheckListStatus').text();
+
+
+                });
+
+
+                $(xmlDoc).find('Table1').each(function (index) {
+                    QuestionSet = $(this).find('QuestionSet').text();
+                    //  QuestionSet
+
+                    var QNo = QuestionSet.split(',');
+                    lastQuestion = QNo[2];
+                    //  console.log('lastQuestion ' + lastQuestion)
+
+                });
+                $(xmlDoc).find('Table').each(function (index) {
+                    $('#divCheckListDetail').empty();
+
+                    var Status = $(this).find('Status').text();
+                    var StrMessage = $(this).find('StrMessage').text();
+                    $(".next").removeAttr('disabled');
+                    if (Status == 'E') {
+                        if (StrMessage.includes('Checks are pending') == true) {
+                            $('#spnErrormsgonPopup').text(StrMessage).css('color', 'red');
+                            if (PageNo > parseInt(pageNumberCount)) {
+                                $(".next").attr('disabled', 'disabled');
+                                return
+                            }
+
+                            return;
+                        }
+
+                        $('#spnErrormsg').text(StrMessage).css('color', 'red');
+                        return;
+                    } else {
+                        if (StrMessage != '') {
+                            $('#myModal').modal('toggle');
+                            $('#spnErrormsg').text(StrMessage).css('color', 'green');
+                            $('#divCheckListDetail').empty();
+                            html = '';
+                            //  setTimeout(GetExportCheckListSearch , 5000);
+                            // GetExportCheckListSearch();
+                            return;
+                        }
+                        PageNo = parseInt($(this).find('PageNo').text());
+                        PageCount = parseInt($(this).find('PageCount').text());
+                        pageNumberCount = parseInt(PageCount);
+
+                    }
+                    $('#myModal').modal('show');
+                    html = '';
+                    html += '<div class="form-group col-xs-12 col-sm-6 col-md-6 NoPadding class=" first visible"" >';
+                    html += '<table id="tblChecklist" class="table table-striped table-bordered">';
+                    html += '<thead style="background-color:rgb(208, 225, 244);">';
+                    html += '<tr>';
+                    html += '<th  style="background-color:rgb(208, 225, 244);">Questions</th>';
+                    html += '<th style="background-color:rgb(208, 225, 244);">Yes</th>';
+                    html += '<th style="background-color:rgb(208, 225, 244);">No</th>';
+                    //html += '<th style="background-color:rgb(208, 225, 244);">N/A</th>';
+                    html += '</tr>';
+                    html += '<tr>';
+                    // if (index == 0) {
+                    //  html += '<td colspan="4" style="background-color: rgb(224, 243, 215);"> <label id="lblHeading">' + show + '</label> </td>';
+                    //  }
+
+                    html += '</tr>';
+                    html += '</thead>';
+                    html += '<tbody>';
+
+                    var HasChild;
+                    var QuestionId;
+                    var flag = '0';
+                    $(xmlDoc).find('Table2').each(function (index) {
+                        $('#lblMessage').text('');
+                        //var Status = $(this).find('Status').text();
+                        //var StrMessage = $(this).find('StrMessage').text();
+                        //if (Status == 'E') {
+                        //    $.alert(StrMessage);
+                        //    $('#divULDNumberDetails').empty();
+                        //    $('#divULDNumberDetails').hide();
+                        //    html = '';
+                        //    return;
+                        //}
+
+                        KeyValue = $(this).find('KeyValue').text();
+                        Question = $(this).find('Question').text();
+                        IsBold = $(this).find('IsBold').text();
+                        Color = $(this).find('Color').text();
+                        IsYes = $(this).find('IsYes').text();
+                        IsNo = $(this).find('IsNo').text();
+                        IsNA = $(this).find('IsNA').text();
+                        IsNote = $(this).find('IsNote').text();
+                        IsOptionChecked = $(this).find('IsOptionChecked').text();
+
+                        var Lno = Question.split('.');
+                        lastNo = Lno[0];
+
+                        CheckListDetailsForShow(KeyValue, Question, IsBold, Color, IsYes, IsNo, IsNA, IsNote, IsOptionChecked);
+
+                    });
+
+                    html += '</tbody></table>';
+
+                    html += '</div >';
+                    //    $('#divCheckListDetail').show();
+                    $('#divCheckListDetail').append(html);
+
+                });
+
+                if (CheckListStatus == 'Checklist Rejected') {
+                    AfterCheckListImportULDAcceptanceOnListClick(globleULDID);
+                }
+
+                if (CheckListStatus == 'Checklist is already accepted') {
+                    AfterCheckListImportULDAcceptanceOnListClick(globleULDID);
+                }
+
+                if (CheckListStatus == 'Checklist Accepted') {
+                    AfterCheckListImportULDAcceptanceOnListClick(globleULDID);
+                }
+
+                //if (parseInt(pageNumberCount) == parseInt(increamentVal)) {
+                //    //  alert(parseInt(lastQuestion) + '/' + parseInt(lastNo))
+                //    $(".next").attr('value', 'Finish');
+                //    //   $(this).hide();
+                //    //  $('#myModal').modal('hide');
+                //    //  return;
+                //}
+            },
+            error: function (msg) {
+                //debugger;
+                $("body").mLoading('hide');
+                var r = jQuery.parseJSON(msg.responseText);
+                $.alert(r.Message);
+            }
+        });
+    }
+    else if (connectionStatus == "offline") {
+        $("body").mLoading('hide');
+        $.alert('No Internet Connection!');
+    }
+    else if (errmsg != "") {
+        $("body").mLoading('hide');
+        $.alert(errmsg);
+    }
+    else {
+        $("body").mLoading('hide');
+    }
+}
+
+
+function CheckListDetailsForShow(KeyValue, Question, IsBold, Color, IsYes, IsNo, IsNA, IsNote, IsOptionChecked) {
+    var AllKeys = KeyValue.split('~');
+
+    //  html += '<tr style="border-bottom: solid thin #ccc;">';
+    html += '<tr>';
+    if (IsBold == 'Y') {
+        html += '<td colSpan=""><span style="font-weight: bold;">' + Question + '</span></td>';
+    } else {
+        if (Question.includes('Note') == true) {
+            html += '<td colSpan="8"><span style="color:' + Color + '">' + Question + '</span></td>';
+        } else {
+            if (AllKeys[0] != 'C') {
+                html += '<td colSpan="8"><span style="color:' + Color + '">' + Question + '</span></td>';
+            } else {
+                html += '<td><span style="color:' + Color + '">' + Question + '</span></td>';
+            }
+
+        }
+        //if (Question.includes('Note') == true) {
+        //    html += '<td colSpan="8" style="font-weight: bold;"><span style="color:' + Color + '">' + Question + '</span></td>';
+        //} else {
+        //    html += '<td><span style="color:' + Color + '">' + Question + '</span></td>';
+        //}
+    }
+
+    if (AllKeys[0] == 'C') {
+
+
+        if (IsYes == 'Y') {
+            html += '<td><label class="radio-inline"> <input   type="radio" name="' + KeyValue + '" id="Yes" value="" checked="checked"> </label></td>';
+        } else {
+            if (IsYes != 'X') {
+                html += '<td><label class="radio-inline"> <input   type="radio" name="' + KeyValue + '" id="Yes" value="" > </label></td>';
+            }
+        }
+
+        if (IsNo == 'Y') {
+            html += '<td><label class="radio-inline"> <input   type="radio" name="' + KeyValue + '" id="No" value="" checked="checked"> </label></td>';
+        } else {
+            if (IsNo != 'X') {
+                html += '<td><label class="radio-inline"> <input  type="radio" name="' + KeyValue + '" id="No" value=""> </label></td>';
+            }
+        }
+
+        //if (IsNA == 'Y') {
+        //    if (IsNA != 'X') {
+        //        html += '<td><label class="radio-inline"> <input  type="radio" name="' + KeyValue + '" id="NA" value="" checked="checked"> </label></td>';
+        //    }
+        //} else {
+        //    if (IsNA != 'X') {
+        //        html += '<td><label class="radio-inline"> <input  type="radio" name="' + KeyValue + '" id="NA" value="" > </label></td>';
+        //    }
+        //}
+    }
+
+    html += '</tr>';
+}

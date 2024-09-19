@@ -112,6 +112,7 @@ function RedirectPage(pagename) {
     }
     else if (pagename == 'IMP_RecordDamage.html')
 
+
         localStorage.removeItem('AWB_Number');
     localStorage.removeItem('HAWB_Number');
     localStorage.removeItem('Flight_Seq_No');

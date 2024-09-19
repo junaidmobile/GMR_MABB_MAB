@@ -65,6 +65,88 @@
                 left: 0.5em;
                 margin-right: -50%;
             }
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            vertical-align: inherit;
+        }
+
+        #tblChecklist .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+            position: relative !important;
+        }
+
+        .first:not(:first-child) {
+            display: none;
+        }
+
+        /* #divCheckListDetail {
+            padding: 10px;
+            display: block;
+            height: 70vh;
+            overflow: scroll;
+        }*/
+
+        .first:not(:first-child) {
+            display: none;
+        }
+
+        .first {
+            /* box-sizing: border-box;*/
+            /* width: 200px;
+            padding: 50px;*/
+            /* border: 1px solid red;
+            text-align: center;*/
+        }
+
+            .first:not(:first-child) {
+                display: none;
+            }
+
+        .controls {
+            width: 200px;
+        }
+
+        .pre {
+            float: left;
+        }
+
+        .next {
+            float: right;
+        }
+
+        a {
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            appearance: none;
+            border: 1px solid #065da1;
+            width: 20px;
+            height: 20px;
+            content: none;
+            outline: none;
+            margin: 0;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+            input[type="radio"]:checked {
+                appearance: none;
+                outline: none;
+                padding: 0;
+                content: none;
+                border: none;
+            }
+
+                input[type="radio"]:checked::before {
+                    position: absolute;
+                    color: green !important;
+                    content: "\00A0\2713\00A0" !important;
+                    border: 1px solid #d3d3d3;
+                    font-weight: bolder;
+                    font-size: 15px;
+                }
+
+        #heading {
+            column-count: 1;
+        }
     </style>
 </head>
 
@@ -348,6 +430,40 @@
                               </div>
                           </div>
                       </div>-->
+        </div>
+    </div>
+
+    <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content content">
+
+                <div class="modal-body row ">
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                        <span id="spnErrormsgonPopup"></span>
+                    </div>
+                    <div style="padding:10px;" id="divCheckListDetail">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                    <div class="row">
+                        <div class="form-group col-xs-4 col-sm-4 col-md-4" style="margin-top:15px">
+                            <input type="button" class="form-control ButtonColor pre" value="PREVIOUS">
+                        </div>
+                        <div class="form-group col-xs-4 col-sm-4 col-md-4" style="margin-top:15px">
+                            <input type="button" id="btnClear" class="form-control ButtonColor" value="Clear" onclick="unCheckAll()">
+                        </div>
+                        <div class="form-group col-xs-4 col-sm-4 col-md-4" style="margin-top:15px">
+                            <input type="button" class="form-control ButtonColor next" value="NEXT">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
         </div>
     </div>
     <div>
