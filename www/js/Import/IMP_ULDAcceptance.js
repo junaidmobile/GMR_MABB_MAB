@@ -44,6 +44,7 @@ var currentDate;
 var currentYear;
 var QuestionaireId;
 var CheckListStatus;
+var CheckListStatusYN;
 var globleULDID;
 
 $(function () {
@@ -97,6 +98,7 @@ $(function () {
 
         if (parseInt(pageNumberCount) == parseInt(PageNo) + 1) {
             //alert(parseInt(lastQuestion) + '/' + parseInt(lastNo))
+            $("#divRemark").show();
             $(".next").attr('value', 'Finish');
             // $(this).hide();
             // $('#myModal').modal('hide');
@@ -135,9 +137,12 @@ $(function () {
         console.log(parseInt(pageNumberCount) + '/' + parseInt(PageNo))
 
         if (parseInt(pageNumberCount) == parseInt(PageNo)) {
-            $(".next").attr('value', 'NEXT');
+            $("#divRemark").hide();
+            $(".next").attr('value', 'Next');
             i = 1;
         } else if (parseInt(pageNumberCount) < parseInt(PageNo)) {
+
+            $("#divRemark").show();
             $(".next").attr('value', 'Finish');
             i = 1;
         }
@@ -351,7 +356,7 @@ function GetImportULDListForScanning() {
                     // $('#txtFlightDate').val(_FlightDate);
 
                     if (ButtonStatus == 'A') {
-                        $("#btnScanAccpt").removeAttr('disabled');
+                        // $("#btnScanAccpt").removeAttr('disabled');
                     }
 
                 });
@@ -366,11 +371,11 @@ function GetImportULDListForScanning() {
 
 
                     if (ButtonStatus == 'A') {
-                        $("#btnScanAccpt").removeAttr('disabled');
+                        // $("#btnScanAccpt").removeAttr('disabled');
                         $('#divULDNumberDetails').hide();
                     } else if (ButtonStatus == 'D') {
                         $("#btnScanAccpt").attr('disabled', 'disabled');
-                        $("#spnMsg").text('ULD No. already accepted.').css({ 'color': txtColor });
+                        // $("#spnMsg").text('ULD No. already accepted.').css({ 'color': txtColor });
 
                         // $.alert('ULD does not exist.');
                     } else {
@@ -565,7 +570,7 @@ function GetImportULDList() {
                     //    dateFormat: 'dd-M-yy'
                     //});
                     if (ButtonStatus == 'A') {
-                        $("#btnScanAccpt").removeAttr('disabled');
+                        // $("#btnScanAccpt").removeAttr('disabled');
                     }
 
                 });
@@ -580,20 +585,22 @@ function GetImportULDList() {
 
 
                     if (ButtonStatus == 'A') {
-                        $("#btnScanAccpt").removeAttr('disabled');
+                        ImportULDAcceptanceOnListClick(_ULDFltSeqNo);
+                        // $("#btnScanAccpt").removeAttr('disabled');
                         $('#divULDNumberDetails').hide();
                     } else if (ButtonStatus == 'D') {
                         $("#btnScanAccpt").attr('disabled', 'disabled');
                         $("#spnMsg").text('ULD No. already accepted.').css({ 'color': txtColor });
-
+                        return;
                         // $.alert('ULD does not exist.');
                     } else {
+                        
                         $("#spnMsg").text('');
                     }
 
                 });
 
-                ImportULDAcceptanceOnListClick(_ULDFltSeqNo);
+               
 
             },
             error: function (msg) {
@@ -620,6 +627,7 @@ function GetImportULDListWithFlightDetails() {
     var connectionStatus = navigator.onLine ? 'online' : 'offline'
     var errmsg = "";
     $('#txtSacnULD').val('');
+    $('#txtLocation').val('');
     $('#txtScanFlight').val('');
     var FlightPrefix = $('#txtFlightPrefix').val();
     var FlightNo = $('#txtFlightNo').val();
@@ -811,6 +819,7 @@ function ScanFlightDetail() {
 
 
     $('#txtSacnULD').val('');
+    $('#txtLocation').val('');
 
     var connectionStatus = navigator.onLine ? 'online' : 'offline'
     var errmsg = "";
@@ -1057,14 +1066,14 @@ function setFBA_LBA_Flag(setFlg) {
 
 function ImportULDAcceptance() {
 
-    if (CheckListStatus == 'Checklist Rejected') {
+    if (CheckListStatus == 'Checklist Rejected' || CheckListStatusYN == 'N') {
         let text = 'The checklist is rejected/incomplete. Do you want to proceed with the release?';
         if (confirm(text) == true) {
-            PageNo = 1
-            $(".next").attr('value', 'NEXT');
+            PageNo = 1;
+            $(".next").attr('value', 'Next');
         } else {
-            PageNo = 1
-            $(".next").attr('value', 'NEXT');
+            PageNo = 1;
+            $(".next").attr('value', 'Next');
             return
         }
     }
@@ -1159,6 +1168,8 @@ function ImportULDAcceptance() {
                         html = '';
                         return true;
                     } else {
+                        $('#txtSacnULD').val('');
+                        $('#txtLocation').val('');
                         $("#btnScanAccpt").attr('disabled', 'disabled');
                         $("#spnMsg").text(StrMessage).css({ 'color': TxtColor });
                     }
@@ -1280,13 +1291,21 @@ function AfterCheckListImportULDAcceptanceOnListClick(txtSacnULD) {
                         $('#divULDNumberDetails').empty();
                         $('#divULDNumberDetails').hide();
                         html = '';
+                        PageNo = 1;
+                        $(".next").attr('value', 'Next');
                         return true;
                     } else {
-                        $.alert(StrMessage).css({ 'color': TxtColor });
-                        //$("#spnMsg").text(StrMessage).css({ 'color': TxtColor });
+                        $('#txtSacnULD').val('');
+                        $('#txtLocation').val('');
+                        $('#divULDNumberDetails').empty();
+                        $('#divULDNumberDetails').hide();
+                        //$.alert(StrMessage).css({ 'color': TxtColor });
+                        $("#spnMsg").text(StrMessage).css({ 'color': TxtColor });
+                        $(".next").attr('value', 'Next');
+                        PageNo = 1;
                     }
                 });
-                GetImportULDListWithFlightDetails();
+                //GetImportULDListWithFlightDetails();
 
             },
             error: function (msg) {
@@ -1310,6 +1329,8 @@ function AfterCheckListImportULDAcceptanceOnListClick(txtSacnULD) {
 
 function clearAWBDetails() {
     $('#txtSacnULD').val('');
+    $('#txtLocation').val('');
+
     $('#txtScanFlight').val('');
     $('#txtFlightPrefix').val('');
     $('#txtFlightNo').val('');
@@ -1448,7 +1469,7 @@ function ImportULDAcceptanceOnListClick(uldid) {
     }
 
     inputRowsOfAns = "";
-    inputRowsOfAns += '<Root><CheckListType>7</CheckListType><ULDId>' + _uldid + '</ULDId><PageNo>' + PageNo + '</PageNo><PageNoDisplay></PageNoDisplay><AirportCity>' + AirportCity + '</AirportCity><UserId>' + UserId + '</UserId><Answers>'
+    inputRowsOfAns += '<Root><CheckListType>7</CheckListType><ULDId>' + _uldid + '</ULDId><PageNo>' + PageNo + '</PageNo><PageNoDisplay></PageNoDisplay><AirportCity>' + AirportCity + '</AirportCity><UserId>' + UserId + '</UserId><Remarks>' + $('#txtAreaRemarkincase').val() + '</Remarks><Answers>'
     $('#tblChecklist tr').each(function () {
         $(this).find("input").each(function () {
             ItemCode = $(this).val();
@@ -1499,6 +1520,7 @@ function ImportULDAcceptanceOnListClick(uldid) {
                     StrMessage = $(this).find('StrMessage').text();
                     PageNo = $(this).find('PageNo').text();
                     PageCount = $(this).find('PageCount').text();
+                    CheckListStatusYN = $(this).find('CheckListStatus').text();// $(this).find('CheckListStatus').text();
                     CheckListStatus = StrMessage// $(this).find('CheckListStatus').text();
 
 
@@ -1609,14 +1631,22 @@ function ImportULDAcceptanceOnListClick(uldid) {
                 });
 
                 if (CheckListStatus == 'Checklist Rejected') {
+                    $('#txtAreaRemarkincase').val('');
+                    $("#divRemark").hide();
+                    $("#btnScanAccpt").removeAttr('disabled');
                     AfterCheckListImportULDAcceptanceOnListClick(globleULDID);
                 }
 
                 if (CheckListStatus == 'Checklist is already accepted') {
+                    $('#txtAreaRemarkincase').val('');
+                    $("#divRemark").hide();
                     AfterCheckListImportULDAcceptanceOnListClick(globleULDID);
                 }
 
                 if (CheckListStatus == 'Checklist Accepted') {
+                    $('#txtAreaRemarkincase').val('');
+                    $("#divRemark").hide();
+                    $("#btnScanAccpt").removeAttr('disabled');
                     AfterCheckListImportULDAcceptanceOnListClick(globleULDID);
                 }
 

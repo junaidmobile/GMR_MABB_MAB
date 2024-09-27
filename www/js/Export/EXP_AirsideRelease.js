@@ -24,7 +24,7 @@ var currentYear;
 var QuestionaireId;
 var CheckListStatus;
 $(function () {
-
+    $("#btnRelease").attr('disabled', 'disabled');
     if (window.localStorage.getItem("RoleExpAirsideRelease") == '0') {
         window.location.href = 'EXP_Dashboard.html';
     }
@@ -46,6 +46,7 @@ $(function () {
     strUldToRelease = '';
     strBulkToRelease = '';
 
+   
 
 
     $(".next").click(function () {
@@ -72,6 +73,7 @@ $(function () {
 
         if (parseInt(pageNumberCount) == parseInt(PageNo) + 1) {
             //alert(parseInt(lastQuestion) + '/' + parseInt(lastNo))
+            $("#divRemark").show();
             $(".next").attr('value', 'Finish');
             // $(this).hide();
             // $('#myModal').modal('hide');
@@ -108,9 +110,11 @@ $(function () {
         console.log(parseInt(pageNumberCount) + '/' + parseInt(PageNo))
 
         if (parseInt(pageNumberCount) == parseInt(PageNo)) {
+            $("#divRemark").hide();
             $(".next").attr('value', 'NEXT');
             i = 1;
         } else if (parseInt(pageNumberCount) < parseInt(PageNo)) {
+            $("#divRemark").show();
             $(".next").attr('value', 'Finish');
             i = 1;
         }
@@ -283,6 +287,7 @@ function GetULDsToRelease() {
                 var xmlDoc = $.parseXML(response);
                 console.log(xmlDoc);
                 strUldToRelease = response;
+                $('#ddlULD').empty();
                 flagULD = '0';
                 $(xmlDoc).find('Table1').each(function (index) {
                     flagULD = '1';
@@ -296,21 +301,33 @@ function GetULDsToRelease() {
                     FltSeqNo = $(this).find('FlightSeqNo').text();
                     FltOffPoint = $(this).find('RoutePoint').text();
 
+                    if (index == 0) {
+                        var newOption = $('<option></option>');
+                        newOption.val(0).text('Select');
+                        newOption.appendTo('#ddlULD');
+                    }
 
                     var newOption = $('<option></option>');
                     newOption.val(ULDId).text(ULDNo);
                     newOption.appendTo('#ddlULD');
+
+                    //if ($(xmlDoc).find('Table1').length == 1) {
+                    //    $('#ddlULD').trigger('change');
+                    //}
 
 
                     if (index == 0) {
                         GetAWBDetailsForULD(ULDId, FltSeqNo, FltOffPoint, 'U')
                     }
 
-
+                    $("#ddlULD option").each(function () {
+                        $(this).siblings('[value="' + this.value + '"]').remove();
+                    });
 
                 });
+                /* alert($('#ddlULD').val())*/
                 if (flagULD == '1') {
-                    GetExportCheckListNext($('#ddlULD').val());
+                    //  GetExportCheckListNext($('#ddlULD').val());
 
                 }
             },
@@ -364,7 +381,7 @@ function GetBULKToRelease() {
                 response = response.d;
 
                 strBulkToRelease = response;
-
+                $('#ddlULD').empty();
                 var xmlDoc = $.parseXML(response);
                 console.log(xmlDoc)
                 $(xmlDoc).find('Table2').each(function (index) {
@@ -455,6 +472,12 @@ function ReleaseULDBulk(flag) {
     }
 
     if (flag == 'U') {
+        if ($('#ddlULD').val() == '0') {
+            $('#spnValMsg').text('Please select ULD No.').css('color', 'red');
+            return;
+        } else {
+            $('#spnValMsg').text('');
+        }
         if (CheckListStatus == 'N') {
             // let text = 'All answer not mark as a Y, do you want to release ULD No.';
             if (confirm('The checklist is rejected/incomplete. Do you want to proceed with the release?') == false) {
@@ -511,6 +534,7 @@ function ReleaseULDBulk(flag) {
                 $(xmlDoc).find('Table').each(function () {
 
                     if ($(this).find('Status').text() == 'S')
+                        $.alert($(this).find('StrMessage').text());
                         GetGPStatus();
                 });
 
@@ -624,10 +648,9 @@ function GetAWBDetailsForULD(ULDId, FltSeqNo, FltOffPoint, type) {
                 strXmlStore = str;
 
                 if (str != null && str != "") {
-
+                  
                     $('#divAddTestLocation').empty();
                     html = '';
-
                     html = "<table id='tblNews' border='1' style='width:100%;table-layout:fixed;word-break:break-word;border-color: white;margin-top: 2%;'>";
                     html += "<thead><tr>";
                     html += "<th height='30' style='background-color:rgb(208, 225, 244);padding: 3px 3px 3px 0px;font-size:14px' align='center'font-weight:'bold'>AWB</th>";
@@ -718,6 +741,12 @@ function AddTableLocation(AWB, Pkgs) {
 
 
 function ChangeULDBulkToRelease(UldBulSeqNo, type) {
+    $("#btnRelease").attr('disabled', 'disabled');
+    if ($("#ddlULD").val() == '0') {
+        return
+    }
+
+    GetExportCheckListNext(UldBulSeqNo);
 
     $('#divAddTestLocation').empty();
     html = '';
@@ -814,7 +843,7 @@ function alertDismissed() {
 function GetExportCheckListNext(uldid) {
 
     inputRowsOfAns = "";
-    inputRowsOfAns += '<Root><CheckListType>7</CheckListType><ULDId>' + uldid + '</ULDId><PageNo>' + PageNo + '</PageNo><PageNoDisplay></PageNoDisplay><AirportCity>' + AirportCity + '</AirportCity><UserId>' + UserId + '</UserId><Answers>'
+    inputRowsOfAns += '<Root><CheckListType>7</CheckListType><ULDId>' + uldid + '</ULDId><PageNo>' + PageNo + '</PageNo><PageNoDisplay></PageNoDisplay><AirportCity>' + AirportCity + '</AirportCity><UserId>' + UserId + '</UserId><Remarks>' + $('#txtAreaRemarkincase').val() + '</Remarks><Answers>'
     $('#tblChecklist tr').each(function () {
         $(this).find("input").each(function () {
             ItemCode = $(this).val();
@@ -866,6 +895,28 @@ function GetExportCheckListNext(uldid) {
                     PageCount = $(this).find('PageCount').text();
                     CheckListStatus = $(this).find('CheckListStatus').text();
 
+                    if (StrMessage == 'Checklist is already accepted') {
+                        $("#btnRelease").attr('disabled', 'disabled');
+                        $(".next").attr('value', 'Next');
+                        PageNo = 1;
+                        $('#txtAreaRemarkincase').val('');
+                        $("#divRemark").hide();
+                        $.alert(StrMessage);
+                    }
+                    if (StrMessage == 'Checklist Rejected') {
+                        $("#btnRelease").removeAttr('disabled');
+                        $(".next").attr('value', 'Next');
+                        PageNo = 1;
+                        $('#txtAreaRemarkincase').val('');
+                        $("#divRemark").hide();
+                    }
+                    if (StrMessage == 'Checklist Accepted') {
+                        $("#btnRelease").removeAttr('disabled');
+                        $(".next").attr('value', 'Next');
+                        PageNo = 1;
+                        $('#txtAreaRemarkincase').val('');
+                        $("#divRemark").hide();
+                    }
 
                 });
 
@@ -1135,14 +1186,14 @@ function ReleaseULDBulkOnCheck(flag) {
                 var xmlDoc = $.parseXML(response);
 
                 $(xmlDoc).find('Table').each(function () {
-
-                    // $.alert($(this).find('StrMessage').text());
-                    $('#spnValMsg').text($(this).find('StrMessage').text()).css('color', 'green');
+                    $.alert($(this).find('StrMessage').text());
+                    //$('#spnValMsg').text($(this).find('StrMessage').text()).css('color', 'green');
                 });
 
                 $(xmlDoc).find('Table').each(function () {
 
                     if ($(this).find('Status').text() == 'S')
+                        $.alert($(this).find('StrMessage').text());
                         GetGPStatus();
                 });
 
